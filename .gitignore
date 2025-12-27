@@ -3,3 +3,9 @@ __pycache__/
 .env
 venv/
 .ipynb_checkpoints/
+audio/
+input_file/
+srt/
+subbed/
+transcibed/
+transcriptions/

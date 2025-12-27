@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 import whisper
+import subprocess
 
 from src.audio_extract import audio_extract
 from src.audio_transcribe import transcribe_audio
@@ -30,12 +31,12 @@ def main():
     # Filter out certain episodes if needed
     mkv_files = [
         f for f in video_root.iterdir()
-        if f.suffix == ".mkv" and all(ep not in f.name for ep in ["S01E01","S01E02","S01E03","S01E04","S01E05"])
+        if f.suffix == ".mkv" and all(ep not in f.name for ep in ["S01E01","S01E02","S01E03","S01E04","S01E05","S01E06","S01E07"])
     ]
 
     # Languages and model
-    langs = ["eng"]
-    default_lang = "eng"
+    langs = ["eng", "ita"]
+    default_lang = "eng"  # updated to match audio stream metadata
     model = whisper.load_model("medium")
 
     for video_path in mkv_files:
@@ -54,8 +55,9 @@ def main():
             default_language=default_lang
         )
 
-        # Step 2: Extract audio (optional, could also use existing track)
-        audio_extract(filename=video_filtered_path, output_filename=audio_file)
+        # Step 2: Extract audio 
+        audio_extract(filename=video_filtered_path, output_filename=audio_file, lang=default_lang)
+
 
         # Step 3: Transcribe to SRT
         try:
@@ -64,10 +66,10 @@ def main():
                 output_dir=DIRS["srt"],
                 output_format="srt",
                 model=model,
-                language=default_lang
+                language="english"
             )
         except Exception as e:
-            print(f"Error during transcription: {e}")
+            print(f"Error during transcription: {type(e).__name__}: {e}")
             continue
 
         # Step 4: Embed subtitles
@@ -78,10 +80,11 @@ def main():
                 output_mkv=output_mkv
             )
         except Exception as e:
-            print(f"Error embedding subtitles: {e}")
+            print(f"Error embedding subtitles: {type(e).__name__}: {e}")
             continue
 
         print(f"Completed {video_path.name} -> {output_mkv.name}")
+
 
 if __name__ == "__main__":
     main()

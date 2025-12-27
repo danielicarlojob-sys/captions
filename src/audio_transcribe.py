@@ -59,3 +59,18 @@ def _write_vtt(segments, path: Path):
             f.write(f"{_format_ts(seg['start']).replace(',', '.')} --> "
                     f"{_format_ts(seg['end']).replace(',', '.')}\n")
             f.write(seg["text"].strip() + "\n\n")
+
+if __name__ == "__main__":
+    model = whisper.load_model("medium")
+    # Step 3: Transcribe to SRT
+    try:
+        srt_path = transcribe_audio(
+            audio_file="audio/Diavoli.S01E08_audio.wav",
+            output_dir="srt",
+            output_format="srt",
+            model=model,
+            language="english"
+        )
+    except Exception as e:
+        print(f"Error during transcription: {type(e).__name__}: {e}")
+        
