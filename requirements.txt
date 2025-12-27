@@ -71,7 +71,7 @@ murmurhash==1.0.12
 mypy-extensions==1.0.0
 networkx==3.4.2
 numba==0.61.0
-numpy==2.2.4
+numpy==2.1.0
 nvidia-cublas-cu12==12.4.5.8
 nvidia-cuda-cupti-cu12==12.4.127
 nvidia-cuda-nvrtc-cu12==12.4.127

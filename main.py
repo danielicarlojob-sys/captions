@@ -31,7 +31,7 @@ def main():
     # Filter out certain episodes if needed
     mkv_files = [
         f for f in video_root.iterdir()
-        if f.suffix == ".mkv" and all(ep not in f.name for ep in ["S01E01","S01E02","S01E03","S01E04","S01E05","S01E06","S01E07"])
+        if f.suffix == ".mkv" and all(ep not in f.name for ep in ["S01E08","S01E09","S01E10","S01E02","S01E03","S01E04","S01E05","S01E06","S01E07"])
     ]
 
     # Languages and model
